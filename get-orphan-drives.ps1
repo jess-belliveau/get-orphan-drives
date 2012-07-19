@@ -6,22 +6,17 @@ Write-Host "Measuring CSV file - please wait."
 $TotalLines = Import-Csv "C:\Files\home-drives.csv" | Measure-Object
 Write-Host $TotalLines.Count " entries detected."
 
-# Create a report array
-$HomeDriveInfo = @()
-$MatchingDriveInfo = @()
+# Initialise arrays
 $TrueArray = @()
 $FalseArray = @()
 $OrphanArray = @()
 
-# We should set all our varialbes to null
-$PreviousCompare = 0
-$PreviousUser = 0
-$LineCounter = 0
-
 # Evaluate each line
 Write-Host "Now evaluating each CSV entry"
+$LineCounter = 0
+
 foreach ($line in $HomeDrives){
-	# Increment each line
+	# Increment for each line
 	$LineCounter++
 	
 	# Display a progress bar to show progression through CSV file
@@ -76,9 +71,12 @@ $UserCounter = 0
 
 # Now traverse through the FalseArray and see if it has an entry in the TrueArray
 foreach ( $FalseUser in $SmallerFalseArray ) {
+	# Set some variables and increment our counter
 	$GlobalMatch = $false
 	$UserCounter++
 	$TrueUserCounter = 0
+	
+	# Build some info for another progress bar
 	$PercentProcessed_3 = (($UserCounter / $SmallerFalseArray.Length)  * 100)
 	$PercentProcessed_3 = "{0:N2}" -f $PercentProcessed_3
 	
@@ -107,4 +105,4 @@ foreach ( $FalseUser in $SmallerFalseArray ) {
 }
 
 # Show us the orphan accounts
-$OrphanArray | FT
+$OrphanArray | select UserID,Server,Path | FT
