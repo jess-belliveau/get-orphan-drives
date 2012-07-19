@@ -1,9 +1,9 @@
 ﻿# Import the CSV file first
 Write-Host "Importing CSV file - please wait."
-$HomeDrives = Import-Csv "C:\Files\home-drives.csv"
+$HomeDrives = Import-Csv "C:\Files\home-drives-test.csv"
 
 Write-Host "Measuring CSV file - please wait."
-$TotalLines = Import-Csv "C:\Files\home-drives.csv" | Measure-Object
+$TotalLines = Import-Csv "C:\Files\home-drives-test.csv" | Measure-Object
 Write-Host $TotalLines.Count " entries detected."
 
 # Initialise arrays
@@ -23,7 +23,7 @@ foreach ($line in $HomeDrives){
 	$PercentProcessed_2 = (($LineCounter / $TotalLines.Count)  * 100)
 	$PercentProcessed_2 = "{0:N2}" -f $PercentProcessed_2
 	
-	Write-Progress -Id 2 -activity "Analyzing each line" -status "Percent read: $PercentProcessed_2" -PercentComplete $PercentProcessed_2
+	Write-Progress -Id 1 -activity "Analyzing each line" -status "Percent read: $PercentProcessed_2" -PercentComplete $PercentProcessed_2
 	
 	# Lets split the FullPath to determine username
 	$FullPathSplit = $line.FullPath.Split("\")
@@ -80,7 +80,7 @@ foreach ( $FalseUser in $SmallerFalseArray ) {
 	$PercentProcessed_3 = (($UserCounter / $SmallerFalseArray.Length)  * 100)
 	$PercentProcessed_3 = "{0:N2}" -f $PercentProcessed_3
 	
-	Write-Progress -Id 3 -activity "Comparing each user" -status "Percent analysed: $PercentProcessed_3" -PercentComplete $PercentProcessed_3
+	Write-Progress -Id 2 -activity "Comparing each user" -status "Percent analysed: $PercentProcessed_3" -PercentComplete $PercentProcessed_3
 	
 	# Take the UserID and see if it exists in the TrueArray
 	foreach ( $TrueUser in $SmallerTrueArray ) {
