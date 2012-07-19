@@ -1,9 +1,9 @@
 ﻿# Import the CSV file first
 Write-Host "Importing CSV file - please wait."
-$HomeDrives = Import-Csv "C:\Files\home-drives-test.csv"
+$HomeDrives = Import-Csv "C:\Files\home-drives.csv"
 
 Write-Host "Measuring CSV file - please wait."
-$TotalLines = Import-Csv "C:\Files\home-drives-test.csv" | Measure-Object
+$TotalLines = Import-Csv "C:\Files\home-drives.csv" | Measure-Object
 Write-Host $TotalLines.Count " entries detected."
 
 # Initialise arrays
@@ -105,4 +105,4 @@ foreach ( $FalseUser in $SmallerFalseArray ) {
 }
 
 # Show us the orphan accounts
-$OrphanArray | select UserID,Server,Path | FT
+$OrphanArray | select UserID,Server,Path | Export-Csv "Identified_Orphan_Drives.csv"
